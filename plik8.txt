@@ -1,0 +1,62 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define ROZMIAR 100
+
+char *deleteLastChar(char *s)
+{
+    int licznik1=0, licznik2 ;
+    char *s_nowe ;
+ 
+    for(licznik1=0; (s[licznik1]!='\0'&&s[licznik1]!='\n'); licznik1++) ;
+     {
+         s_nowe = calloc(licznik1, sizeof(char)) ;
+    }
+    if (s_nowe==NULL)
+    {
+          return NULL ;
+    }
+    for(licznik2=0; licznik2<(licznik1-1); licznik2++)
+    {
+        s_nowe[licznik2]=s[licznik2] ;
+    }
+ 
+      free(s) ;
+      s=NULL ;
+ 
+      return s_nowe ;
+}
+
+main(void)
+{
+    char* napis;
+    int c;
+ 
+    napis=calloc(ROZMIAR, sizeof(char)) ;
+    if(napis==NULL)
+    {
+        printf("pamiec nie zostala przydzielona\n") ;
+    }
+      
+    printf("Wpisz tekst\n") ;
+      fgets(napis, ROZMIAR, stdin) ;
+ 
+     printf("Wpisz 1 aby usunac litere z napisu, aby zakoñczyæ wpisz *\n") ;
+    
+    while(scanf("%d",&c)!=0)
+    {
+        napis=deleteLastChar(napis) ;
+        if(napis[0]=='\0')
+        {
+              printf("Caly tekst zostal usuniety\n") ;
+              break ;
+        }
+        if(napis==NULL)
+        {
+              printf("Koniec programu.Wystapil blad.\n") ;
+              break ;
+        }
+        puts(napis) ;
+        printf("Aby usunac kolejna litere wcisnij 1, aby zakonczyc wcisnij *\n") ;
+      }
+ 
+}
