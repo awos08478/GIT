@@ -1,0 +1,150 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void deleteMatrix(int*** ptab, int n) ;
+ 
+int** createMatrix(int n)
+{
+    int licznik ;
+ 
+    int** ptr = malloc(n*sizeof(int*));
+    if(ptr == NULL)
+    {
+        return NULL;
+    }
+ 
+    for(licznik=0; licznik<n; licznik++)
+    {
+        ptr[licznik]=malloc(n*sizeof(int));
+  
+        if(ptr[licznik]==NULL)
+        {
+              deleteMatrix(&ptr,licznik);
+              return NULL;
+        }    
+      }
+     return ptr ;
+}
+
+void fillMatrix(int** tab, int n)
+{
+  int licznik1, licznik2, l_nat = 1;
+ 
+  if(tab == NULL)
+  {
+    return;
+  }
+  
+    for(licznik1= 0; licznik1< n; licznik1++)
+    {
+      for(licznik2= 0; licznik2< n; licznik2++)
+      {
+         tab[licznik1][licznik2] = l_nat;
+         l_nat++;
+      }
+    }
+    return;
+}
+
+
+void copyMatrix(int*** dest, int** src, int n)
+{
+    if(dest == NULL) return;
+
+    if(src == NULL)
+    {
+        *dest = NULL;
+        return;
+    }
+  
+
+    int** new_matrix = createMatrix(n);
+
+    if(new_matrix == NULL)
+    {
+        *dest = NULL;
+        return;
+    }
+
+    int licznik1, licznik2;
+ 
+    for(licznik1= 0; licznik1< n; licznik1++)
+    {
+      if(src[licznik1] == NULL)
+      {                  
+        for(licznik2 = 0; licznik2 < n; licznik2++)
+        {
+          free (new_matrix[licznik2]);
+        }
+      
+        free(new_matrix);
+
+        *dest = NULL;
+        return;
+      }
+      else
+      {
+        for(licznik2 = 0; licznik2 < n; licznik2++)
+        {
+          new_matrix[licznik1][licznik2] = src[licznik1][licznik2];
+        }
+      } 
+    }
+ 
+  *dest = new_matrix;
+}
+
+
+void deleteMatrix(int*** ptab, int n)
+{
+  if(ptab == NULL) return;
+
+    int licznik = 0;
+    for(; licznik < n; licznik++)
+    {
+        free((*ptab)[licznik]);
+    }
+
+    free(*ptab);
+    *ptab = NULL;
+}
+
+main()
+{
+    int x, licznik1, licznik2, l_nat ;
+    int** ptr ;
+    int** nowa ;
+   
+    printf("podaj wymiar macierzy:\n") ;
+    scanf("%d", &x) ;
+   
+    ptr= createMatrix(x) ;
+    fillMatrix(ptr, x) ;
+   
+    printf("wygenerowana macierz:\n\n") ;
+   
+    for(licznik1= 0; licznik1< x; licznik1++)
+    {
+          for(licznik2= 0; licznik2< x; licznik2++)
+         {
+             ptr[licznik1][licznik2] = l_nat+1 ;
+            printf("%4d",ptr[licznik1][licznik2]) ;
+            l_nat++;
+         }
+         printf("\n") ;
+       }
+       copyMatrix(&nowa, ptr, x) ;
+      
+       printf("\nwygenerowana macierz po skopiowaniu:\n\n") ;
+      
+       for(licznik1= 0; licznik1< x; licznik1++)
+    {
+          for(licznik2= 0; licznik2< x; licznik2++)
+         {
+             nowa[licznik1][licznik2] = l_nat+1 ;
+            printf("%4d",ptr[licznik1][licznik2]) ;
+            l_nat++;
+         }
+         printf("\n") ;
+    }
+}
