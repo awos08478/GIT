@@ -1,5 +1,5 @@
-#include <stdio.h> 
-#include <stdlib.h> //ta sama zabawa ze zmiana
+#include <stdio.h> //zmiana
+#include <stdlib.h>
 
 void deleteMatrix(int*** ptab, int n) ;
  
