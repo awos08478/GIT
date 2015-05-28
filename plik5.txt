@@ -1,0 +1,134 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct
+{
+    char imie[30] ;
+    char nazwisko[30] ;
+    long numer ;
+    int indeks ;
+} wpis ;
+
+wpis* dodanie(wpis* ksiazka, int* x)
+{
+    int ilosc ;
+    ilosc=*x ;
+    wpis* tablica = malloc((ilosc+1)*sizeof(wpis)) ;
+   
+    if(tablica==NULL)
+    {
+      free(ksiazka);
+      return;
+    }
+   
+    int licznik ;
+    for(licznik=0; licznik<ilosc; licznik++)
+    {
+        tablica[licznik]=ksiazka[licznik] ;
+    }
+   
+    printf("podaj imie ") ;
+    fgets(tablica[licznik].imie, 30, stdin) ;
+    printf("i nazwisko\n") ;
+    fgets(tablica[licznik].nazwisko,30,stdin) ;
+    printf("podaj numer\n") ;
+    scanf("%ld",&(tablica[licznik].numer)) ;
+    tablica[licznik].indeks=licznik+1 ;
+   
+    ksiazka=realloc(ksiazka, (ilosc+1)*sizeof(wpis) ) ;
+   
+    for(licznik=0; licznik<ilosc+1; licznik++)
+    {
+        ksiazka[licznik]=tablica[licznik] ;
+    }
+   
+    *x=licznik ;
+    free(tablica) ;
+    return ksiazka ;
+}
+
+int search(wpis* ksiazka, int ilosc)
+{
+    long sprawdzenie ;
+    int licznik, indeks=0 ;
+    printf("podaj numer: \n") ;
+    scanf("%ld", &sprawdzenie) ;
+   
+    for(licznik=0; licznik<ilosc; licznik++)
+    {
+        if(ksiazka[licznik].numer==sprawdzenie)
+        {
+            indeks=licznik+1 ;
+        }
+    }
+   
+    if(indeks!=0)
+    return indeks ;
+    else return -1 ;
+}
+
+void print(wpis* ptr)
+{
+    puts(ptr->imie) ;
+    puts(ptr->nazwisko) ;
+    printf("%ld",ptr->numer) ;
+}
+
+void main()
+{
+    wpis* ksiazka=NULL ;
+    wpis* nowa=NULL ;
+    int ilosc=0, x=1 ;
+
+   
+    while(x==1)
+    {
+        int indeks, wybor, wypisz ;
+        printf("\n\nOperacje w ksiazce telefonicznej:\ndodanie wpisu\t\t\tWYBIERZ 1\nwyszukanie numeru\t\tWYBIERZ 2\nwypisanie elementu\t\tWYBIERZ 3\nwyjscie z programu\t\tWYBIERZ 4\nTwoj wybor to :\n") ;
+        scanf("%d", &wybor) ;
+        switch(wybor)
+        {
+            case 1 :
+                {
+                    nowa=dodanie(ksiazka, &ilosc) ;
+                    break ;
+                }
+            case 2 :
+                {
+                    indeks=search(nowa, ilosc) ;
+                    if(indeks==-1)
+                    {
+                        printf("nie ma tego numeru w ksiazce\n\n") ;
+                        break ;
+                    }
+                    else
+                    {
+                        printf("Szukany numer wystepuje pod indeksem %d.\n",indeks) ;
+                        break ;
+                    }
+                }
+            case 3 :
+                {
+                    printf("Ktory element chcesz wypisac ? :") ;
+                    scanf("%d", &wypisz) ;
+                    if(wypisz!=indeks)
+                    {
+                        printf("Nie ma wpisu o takim numerze.\n") ;
+                        break ;
+                    }
+                    else
+                    {
+                        print(nowa+wypisz-1) ;
+                        break ;
+                    }
+                }
+            case 4 :
+                {   
+                    x=0 ;
+                    printf("koniec programu\n") ;
+                    free(nowa) ;
+                    break ;
+                }
+        }
+    }
+}
