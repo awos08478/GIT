@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <math.h>
+
+typedef struct
+{
+    int re ;
+    int im ;
+} complex ;
+
+complex dodawanie(complex x, complex y) ;
+float modul(complex x) ;
+complex sprzezenie(complex x) ;
+
+
+
+main()
+{
+     complex a, b, c, f, g ;
+     float d, e ;
+    
+     printf("podaj czesc rzeczywista i urojona pierwszej liczby zespolonej:") ;
+     scanf("%d%d",&a.re, &a.im) ;
+    
+     printf("\npodaj czesc rzeczywista i urojona drugiej liczby zespolonej:") ;
+     scanf("%d%d",&b.re, &b.im) ;
+    
+     c=dodawanie(a,b) ;
+     if(c.im<0) printf("\nwynik dodawania: %d-i%d",c.re, -c.im) ;   
+    else printf("\nwynik dodawania: %d+i%d",c.re, c.im) ;
+   
+    d=modul(a) ;
+    e=modul(b) ;
+    printf("\nmodul pierwszej liczby wynosi: %.2f",d) ;
+    printf("\nmodul drugiej liczby wynosi: %.2f",e) ;
+   
+    f=sprzezenie(a) ;
+    if(f.im<0) printf("\nsprzezenie pierwszej liczby wynosi:%d-i%d",f.re, -f.im) ;
+    else printf ("\nsprzezenie pierwszej liczby wynosi:%d+i%d",f.re, f.im) ;
+   
+    g=sprzezenie(b) ;
+    if(g.im<0) printf("\nsprzezenie pierwszej liczby wynosi:%d-i%d",g.re, -g.im) ;
+    else printf ("\nsprzezenie pierwszej liczby wynosi:%d+i%d",g.re, g.im) ;
+   
+}
+ 
+complex dodawanie(complex x, complex y)
+{
+     complex z ;
+     z.re = x.re + y.re ;
+     z.im = x.im + y.im ;
+    
+     return z ;
+}
+
+float modul(complex x)
+{
+    return sqrt(x.re*x.re + x.im*x.im) ;
+}
+
+complex sprzezenie(complex x)
+{
+    complex y;
+    y.re = x.re ;
+    y.im = -x.im ;
+   
+    return y ;
+}
