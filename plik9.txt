@@ -1,0 +1,85 @@
+#include"array.h"
+#include<stdlib.h>
+
+void deleteMatrix(int ***ptab, tinf tab)
+{
+	int i;
+	
+	for(i=0; i!=(tab.row); ++i)
+	  {
+	  free((*ptab)[i]);
+	  }
+	free(*ptab);
+	*ptab=NULL;
+	return;
+}
+
+int **create(tinf tab)
+{
+	int **ntab;
+	int i;
+	tinf error;
+	
+	ntab=(int**)malloc((tab.row)*sizeof(int*));
+	if(ntab==NULL)
+	  {
+	  printf("Za malo pamieci, sprobuj ponownie\n");
+	  return NULL;
+	  }
+	for(i=0; i!=(tab.row); ++i)
+	  {
+	  ntab[i]=(int*)malloc((tab.col)*sizeof(int));
+	  if(ntab[i]==NULL) 
+	    {
+	    printf("Za malo pamieci, sprobuj ponownie\n");
+	    error.row=i;
+		deleteMatrix(&ntab, error);
+	    return NULL;
+	    }
+	  }
+	return ntab;
+}
+
+void resize(int ***tab, tinf old_tab, tinf new_tab)
+{
+	int **temp=*tab;
+	int **new_matrix;
+	int i,j;
+	
+	new_matrix=create(new_tab);
+	if(new_matrix==NULL)
+		{
+		printf("Za malo pamieci, sprobuj ponownie\n");
+		return;
+		}
+	for(i=0; i!=(old_tab.row) && i!=(new_tab.row); ++i)
+	  {
+	  for(j=0; j!=(old_tab.col) && j!=(new_tab.col); ++j)
+	    {
+	    new_matrix[i][j]=temp[i][j];
+	    }
+	  }
+	deleteMatrix(tab, old_tab);
+	*tab=new_matrix;
+	return;
+}
+
+int at(tinf tab, int i, int j)
+{
+	if (i>=tab.row || j>=tab.col)
+		{
+		printf("Nie ma takiego miejsca w tabeli\n");
+		return -1;
+		}	
+	return tab.ptab[i][j];
+}
+
+void insert(tinf tab, int i, int j, int new_elem)
+{
+	if(i>=tab.row || j>=tab.col)
+		{
+		printf("Nie ma takiego miejsca w tabeli\n");
+		return;	
+		}
+	tab.ptab[i][j]=new_elem;
+}
