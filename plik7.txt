@@ -1,0 +1,44 @@
+#include <stdio.h>
+
+#include <stdlib.h>
+
+int* dynamiczna_tablica(int liczba)
+{
+  int* tab ;
+  tab= (int*)malloc(liczba*sizeof(int)) ;
+ 
+    if(tab!=NULL)
+     {
+        int licznik ;
+        for(licznik=0; licznik<liczba; licznik++)
+        {
+              *(tab+licznik)= 2*licznik+1 ;
+        }
+         return tab ;
+    }
+    else return NULL ;
+}
+
+main()
+{
+  int liczba, *tab ;
+  int licznik ;
+ 
+  printf("Podaj rozmiar tablicy:\n") ;
+  scanf("%d",&liczba) ;
+ 
+  tab=dynamiczna_tablica(liczba) ;
+  if(tab!=NULL)
+  {
+    for(licznik=0; licznik<liczba; licznik++)
+    {
+      printf("%d ", *(tab+licznik)) ;
+    }
+    printf("\n") ;
+    free(tab) ;
+  }
+  else
+  {
+    printf("pamiec nie zostala przydzielona\n") ;
+  }
+}
