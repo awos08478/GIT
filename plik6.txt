@@ -1,0 +1,148 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define ROZMIAR 30
+
+typedef struct
+{
+    char imie[ROZMIAR];
+    char nazwisko[ROZMIAR];
+    int rok;
+} element;
+
+typedef struct wezel
+{
+      element dane;
+      struct wezel *nastepny;
+} wezel;
+
+element create()
+ {
+     element dane;
+     printf("podaj imie:\n");
+     scanf("%s",&dane.imie);
+    
+     printf("podaj nazwisko:\n");
+     scanf("%s",&dane.nazwisko);
+    
+     printf("podaj rok urodzenia:\n");
+     scanf("%d",&dane.rok);
+    return dane;
+ }
+ 
+wezel* add_elem_first(wezel *poczatek,element dane)
+{
+      wezel *tmp;
+      tmp=(wezel*)malloc(sizeof(wezel));
+      if(tmp==NULL)
+      {
+        printf("brak pamieci");
+        return NULL;
+    }
+    tmp->dane=dane;
+    tmp->nastepny=poczatek;
+    poczatek=tmp;
+    return tmp;
+}
+
+void wypisz(wezel* poczatek)
+{
+    wezel *tmp;
+    int sprawdzenie=0;
+      for(tmp=poczatek;tmp!=NULL;tmp=tmp->nastepny)
+      {
+        printf("\n\n\t%s\n\t%s\n\t%d\n\n",tmp->dane.imie, tmp->dane.nazwisko, tmp->dane.rok);
+        sprawdzenie++ ;
+      }
+      if(sprawdzenie==0)
+      printf("nie ma zadnych wpisow\n\n");
+}
+
+void wyszukaj(wezel *poczatek)
+{
+    wezel *tmp;
+    int x,sprawdzenie=0;
+    printf("podaj rok:\n");
+    scanf("%d",&x);
+    for(tmp=poczatek;tmp!=NULL;tmp=tmp->nastepny)
+    {
+        if(tmp->dane.rok==x)
+        {
+            printf("%s\n%s\n%d\n\n",tmp->dane.imie,tmp->dane.nazwisko,tmp->dane.rok);
+            sprawdzenie++;
+        }
+    }
+    if(sprawdzenie==0)
+    printf("nie ma wpisow o takim roku");
+}
+
+wezel* usun(wezel *poczatek)
+{
+    wezel *tmp;
+     tmp=poczatek->nastepny;
+      free(poczatek);
+     return tmp;
+}
+
+wezel* usun_all(wezel* poczatek)
+{
+    wezel* tmp;
+    for(tmp=poczatek;tmp!=NULL;tmp=tmp->nastepny)
+    {
+        free(tmp);
+    }
+    return tmp;
+}
+
+main()
+{
+    wezel* poczatek=NULL;
+    int wybor;
+    int sprawdzenie;
+   
+    do
+    {
+        printf("Wybierz opcje:\n\n");
+        printf("dodanie wpisu\t\t\t\twybierz 1\n");
+        printf("wyszukanie wpisu (wzgledem roku)\twybierz 2\n");
+        printf("wypisanie wszystkich wpisow\t\twybierz 3\n");
+        printf("usuwanie pierwszego wpisu\t\twybierz 4\n");
+        printf("usuwanie wszystkich wpisow\t\twybierz 5\n");
+        printf("wyjscie z programu\t\t\twybierz *\n\n");
+   
+        sprawdzenie=scanf("%d",&wybor);
+       
+        switch(wybor)
+        {
+            case 1:
+            {
+                element dane;
+                dane=create();
+                poczatek=add_elem_first(poczatek,dane);
+                break;
+            }
+            case 2:
+            {
+                wyszukaj(poczatek);
+                break;
+            }
+            case 3:
+            {
+                wypisz(poczatek);
+                break;
+            }
+            case 4:
+            {
+                poczatek=usun(poczatek);
+                break;
+            }
+            case 5:
+            {
+                poczatek=usun_all(poczatek);
+                break;
+            }
+        }
+    printf("\n\n");
+    }while(sprawdzenie==1);
+    usun_all(poczatek);   
+    printf("\n\n\t\tkoniec programu");
+}
