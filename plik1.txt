@@ -1,7 +1,7 @@
 #include <stdio.h> //zmiana
 #include <stdlib.h> //tu tez zmiana
 
-void deleteMatrix(int*** ptab, int n) ; //abababa
+void deleteMatrix(int*** ptab, int n) ; //abababa czadfwqre
  
 int** createMatrix(int n)
 {
